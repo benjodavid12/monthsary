@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Monthsary ❤️</title>
+
+<style>
+body{
+margin:0;
+font-family: Arial, sans-serif;
+background: linear-gradient(135deg,#ff758c,#ff7eb3);
+color:white;
+text-align:center;
+overflow:hidden;
+}
+
+/* PASSWORD SCREEN */
+#lockScreen{
+position:absolute;
+width:100%;
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+background: linear-gradient(135deg,#ff758c,#ff7eb3);
+z-index:10;
+overflow:hidden;
+}
+
+/* floating hearts background */
+.bgHeart{
+position:absolute;
+font-size:50px;
+animation: floatBg 10s linear infinite;
+opacity:0.7;
+}
+
+@keyframes floatBg{
+0%{
+transform:translateY(100vh);
+opacity:0;
+}
+20%{opacity:0.7;}
+100%{
+transform:translateY(-120vh);
+opacity:0;
+}
+}
+
+input{
+padding:12px;
+font-size:18px;
+border-radius:10px;
+border:none;
+margin-top:10px;
+text-align:center;
+z-index:2;
+}
+
+button{
+padding:12px 20px;
+font-size:18px;
+border:none;
+border-radius:10px;
+background:red;
+color:white;
+margin-top:15px;
+z-index:2;
+}
+
+/* MAIN */
+#main{
+display:none;
+padding:20px;
+}
+
+h1{
+font-size:26px;
+}
+
+/* LOVE LETTER */
+#letter{
+font-size:18px;
+max-width:90%;
+margin:auto;
+min-height:120px;
+border-right:3px solid white;
+white-space:pre-wrap;
+overflow:hidden;
+}
+
+/* FLOATING PHOTOS (SLOWER) */
+.photo{
+position:absolute;
+width:310px;
+height:310px;;
+border-radius:15px;
+object-fit:cover;
+animation: floatPhoto 20s linear infinite;
+}
+
+@keyframes floatPhoto{
+0%{
+transform:translateY(110vh) rotate(0deg);
+opacity:0;
+}
+15%{opacity:1;}
+100%{
+transform:translateY(-130vh) rotate(180deg);
+opacity:0;
+}
+}
+
+/* FALLING ROSES */
+.rose{
+position:absolute;
+top:-50px;
+font-size:50px;
+animation: fall linear infinite;
+}
+
+@keyframes fall{
+to{
+transform:translateY(110vh) rotate(360deg);
+opacity:0;
+}
+}
+
+/* MOBILE */
+@media (max-width:600px){
+
+.photo{
+width:80px;
+height:80px;
+}
+
+#letter{
+font-size:16px;
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<!-- PASSWORD SCREEN -->
+<div id="lockScreen">
+
+<h2 style="z-index:2;">Enter Password ❤️</h2>
+
+<input type="password" id="password" placeholder="Enter password">
+
+<button onclick="unlock()">Unlock 💌</button>
+
+<p id="error" style="z-index:2;"></p>
+
+</div>
+
+<!-- MAIN -->
+<div id="main">
+
+<h1>Happy 1st Monthsary My Love ❤️</h1>
+
+<p id="letter"></p>
+
+<button onclick="startSurprise()">Click Here My Love 🌹</button>
+
+<audio id="music" loop>
+<source src="palagi.mp3" type="audio/mp3">
+</audio>
+
+</div>
+
+<script>
+
+/* PASSWORD */
+const correctPassword="012826";
+
+/* UNLOCK */
+function unlock(){
+
+let input=document.getElementById("password").value;
+
+if(input===correctPassword){
+
+document.getElementById("lockScreen").style.display="none";
+document.getElementById("main").style.display="block";
+
+startTyping();
+
+}else{
+document.getElementById("error").innerHTML="Wrong password 💔";
+}
+
+}
+
+/* TYPING LETTER */
+const message=`Happy 1st Monthsary My Love ❤️
+
+You are my favorite notification.
+My favorite hello.
+My favorite everything.
+
+Every moment with you is magic.
+I love you forever. 💕`;
+
+let i=0;
+
+function startTyping(){
+
+const letter=document.getElementById("letter");
+
+function type(){
+
+if(i<message.length){
+
+letter.innerHTML+=message.charAt(i);
+i++;
+setTimeout(type,60);
+
+}
+
+}
+
+type();
+
+}
+
+/* MORE PHOTO SLOTS (ADD MORE HERE) */
+const photos=[
+"photo1.jpg",
+"photo2.jpg",
+"photo3.jpg",
+"photo4.jpg",
+"photo5.jpg",
+"photo6.jpg",
+"photo7.jpg",
+"photo8.jpg",
+"photo9.jpg",
+"photo10.jpg"
+];
+
+/* SURPRISE */
+function startSurprise(){
+
+document.getElementById("music").play();
+
+/* slower floating photos */
+setInterval(()=>{
+
+let img=document.createElement("img");
+
+img.src=photos[Math.floor(Math.random()*photos.length)];
+
+img.className="photo";
+
+img.style.left=Math.random()*90+"vw";
+
+document.body.appendChild(img);
+
+setTimeout(()=>{
+img.remove();
+},20000);
+
+},2000);
+
+/* falling roses */
+setInterval(()=>{
+
+let rose=document.createElement("div");
+
+rose.innerHTML="🌹";
+
+rose.className="rose";
+
+rose.style.left=Math.random()*100+"vw";
+
+rose.style.animationDuration=(Math.random()*5+5)+"s";
+
+document.body.appendChild(rose);
+
+setTimeout(()=>{
+rose.remove();
+},10000);
+
+},800);
+
+}
+
+/* PASSWORD BACKGROUND HEARTS */
+setInterval(()=>{
+
+let heart=document.createElement("div");
+
+heart.innerHTML="💗";
+
+heart.className="bgHeart";
+
+heart.style.left=Math.random()*100+"vw";
+
+heart.style.fontSize=(Math.random()*20+15)+"px";
+
+document.getElementById("lockScreen").appendChild(heart);
+
+setTimeout(()=>{
+heart.remove();
+},10000);
+
+},500);
+
+</script>
+
+</body>
+</html>
